@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module"></script>
+    <title>deepClone</title>
+</head>
+
+<body>
+
+</body>
+<script type="module">
+    import deepClone from "./deepClone.js";
+    const obj = { name: 'Jack', address: { x: 100, y: 200 } };
+    obj.a = obj;
+    // const cloneObj = JSON.parse(JSON.stringify(obj))
+    // console.log("cloneObj", cloneObj);
+    const newObj = deepClone(obj);
+    console.log(newObj.address === obj.address);
+    console.log(newObj);
+    console.log(obj);
+</script>
+
+</html>
