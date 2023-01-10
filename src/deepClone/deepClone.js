@@ -5,8 +5,12 @@ function deepClone(obj, cache = new WeakMap()) {
 
     // 如果是Date、RegExp也需要特判
     if (obj instanceof Date) return new Date(obj);
-    // 网上看有人说RegExp类型拷贝要带上flags
-    if (obj instanceof RegExp) return new RegExp(obj);
+    // 直接new的话lastIndex属性不会复制，具体要不要复制还是得看需求
+    if (obj instanceof RegExp) {
+        let cloneRegExp = new RegExp(obj);
+        cloneRegExp.lastIndex = obj.lastIndex;
+        return cloneRegExp;
+    }
 
     // 使用WeakMap缓存解决循环引用
     if (cache.has(obj)) return cache.get(obj);
@@ -31,7 +35,21 @@ function deepClone(obj, cache = new WeakMap()) {
 
 export { deepClone as default }
 
-const obj = { name: 'Jack', address: { x: 100, y: 200 } };
+const obj = {
+    date: new Date(),
+    reg: /\d+/,
+    child: {
+        arr: [
+            1,
+            3,
+            new Map(
+                Object.entries({
+                    apple: "red",
+                })
+            ),
+        ],
+    },
+};
 obj.a = obj;
 const newObj = deepClone(obj);
 console.log(newObj.address === obj.address);
