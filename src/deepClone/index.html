@@ -14,7 +14,21 @@
 </body>
 <script type="module">
     import deepClone from "./deepClone.js";
-    const obj = { name: 'Jack', address: { x: 100, y: 200 } };
+    const obj = {
+        date: new Date(),
+        reg: /(\w)\1*(\w)\2*(\w)\3*/g,
+        child: {
+            arr: [
+                1,
+                3,
+                new Map(
+                    Object.entries({
+                        apple: "red",
+                    })
+                ),
+            ],
+        },
+    };
     obj.a = obj;
     // const cloneObj = JSON.parse(JSON.stringify(obj))
     // console.log("cloneObj", cloneObj);
@@ -22,6 +36,11 @@
     console.log(newObj.address === obj.address);
     console.log(newObj);
     console.log(obj);
+    let reg1 = new RegExp(/(\w)\1*(\w)\2*(\w)\3*/, 'g');
+    reg1.lastIndex = 1
+    let reg2 = deepClone(reg1);
+    console.dir(reg1);
+    console.dir(reg2);
 </script>
 
 </html>
