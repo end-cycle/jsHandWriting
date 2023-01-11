@@ -15,7 +15,7 @@
 <script type="module">
     import deepClone from "./deepClone.js";
     const obj = {
-        date: new Date(),
+        date: new Date('December 17, 1995 03:24:00'),
         reg: /(\w)\1*(\w)\2*(\w)\3*/g,
         child: {
             arr: [
@@ -29,18 +29,14 @@
             ],
         },
     };
+    // 构成循环引用
     obj.a = obj;
-    // const cloneObj = JSON.parse(JSON.stringify(obj))
-    // console.log("cloneObj", cloneObj);
+    // 修改正则对象lastindex属性
+    obj.reg.lastIndex = 1;
     const newObj = deepClone(obj);
-    console.log(newObj.address === obj.address);
-    console.log(newObj);
+    console.log(newObj.child === obj.child);
     console.log(obj);
-    let reg1 = new RegExp(/(\w)\1*(\w)\2*(\w)\3*/, 'g');
-    reg1.lastIndex = 1
-    let reg2 = deepClone(reg1);
-    console.dir(reg1);
-    console.dir(reg2);
+    console.log(newObj);
 </script>
 
 </html>

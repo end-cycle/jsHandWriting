@@ -3,7 +3,7 @@ function deepClone(obj, cache = new WeakMap()) {
     // 如果是基本类型直接返回，null是对象需要特判
     if (obj === null || typeof obj !== 'object') return obj;
 
-    // 如果是Date、RegExp也需要特判
+    // Date需要特判不然直接当普通对象会返回一个当前时间节点的Date对象
     if (obj instanceof Date) return new Date(obj);
     // 直接new的话lastIndex属性不会复制，具体要不要复制还是得看需求
     if (obj instanceof RegExp) {
@@ -36,7 +36,7 @@ function deepClone(obj, cache = new WeakMap()) {
 export { deepClone as default }
 
 const obj = {
-    date: new Date(),
+    date: new Date('December 17, 1995 03:24:00'),
     reg: /\d+/,
     child: {
         arr: [
@@ -52,7 +52,7 @@ const obj = {
 };
 obj.a = obj;
 const newObj = deepClone(obj);
-console.log(newObj.address === obj.address);
+console.log(newObj.child === obj.child);
 // console.dir(newObj);
 // console.dir(obj);
 
