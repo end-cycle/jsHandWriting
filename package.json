@@ -4,5 +4,8 @@
   },
   "scripts": {
     "test": "promises-aplus-tests ./src/promise/myPromise"
+  },
+  "dependencies": {
+    "vue": "^3.2.36"
   }
 }
