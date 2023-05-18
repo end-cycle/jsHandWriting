@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag Sort</title>
+    <style>
+        * {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            width: 400px;
+            margin: 100px auto;
+            padding-left: 17%;
+        }
+
+        .ele {
+            width: 70%;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #999;
+            background: cadetblue;
+            margin-top: 8px;
+            border-radius: 10px;
+            padding-left: 10px;
+            color: white;
+            cursor: move;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="container">
+        <li class="ele" draggable="true">第一名</li>
+        <li class="ele" draggable="true">第二名</li>
+        <li class="ele" draggable="true">第三名</li>
+        <li class="ele" draggable="true">第四名</li>
+    </ul>
+    <script>
+        var node = document.querySelector("#container");
+        var draging = null;
+
+
+        node.ondragstart = function (event) {
+            event.dataTransfer.setData("te", event.target.innerText);
+            draging = event.target;
+        };
+
+        node.ondragover = function (event) {
+            event.preventDefault();
+            var target = event.target;
+            if (target.nodeName === "LI") {
+                if (target !== draging) {
+                    var targetRect = target.getBoundingClientRect();
+                    var dragingRect = draging.getBoundingClientRect();
+                    if (target) {
+                        if (target.animated) {
+                            return;
+                        }
+                    }
+                    if (getIndex(draging) < getIndex(target)) {
+                        target.parentNode.insertBefore(draging, target);
+                    }
+                    _animate(dragingRect, draging)
+                    _animate(targetRect, target)
+                }
+            }
+        }
+
+        function getIndex(el) {
+            var index = 0;
+
+            if (!el || !el.parentNode) {
+                return -1;
+            }
+            while (el && (el = el.previousElementSibling)) {
+                index++;
+            }
+            return index;
+        }
+
+        function _animate(PrevRect, target) {
+            var ms = 300;
+            if (ms) {
+                var currentRect = target.getBoundingClientRect();
+
+                if (PrevRect.nodeType === 1) {
+                    PrevRect = PrevRect.getBoundingClientRect();
+                }
+
+                styleEvent(target, "transition", "none");
+                styleEvent(target, "transform", "translate3d(" + (PrevRect.left - currentRect.left) + "px," + (PrevRect.top - currentRect.top) + " px,0)");
+
+                target.offsetWidth;
+                styleEvent(target, "transition", "all " + ms + "ms");
+                styleEvent(target, "transform", "translate3d(0,0,0)");
+
+                clearTimeout(target.animated);
+                target.animated = setTimeout(function () {
+                    styleEvent(target, "transition", "");
+                    styleEvent(target, "transform", "");
+                    target.animated = false;
+                }, ms);
+            }
+        }
+
+        function styleEvent(el, prop, val) {
+            var style = el && el.style;
+
+            if (style) {
+                if (val === void 0) {
+                    if (document.defaultView && document.defaultView.getComputedStyle) {
+                        val = document.defaultView.getComputedStyle(el, "");
+                    } else {
+                        val = el.currentStyle;
+                    }
+
+                    return prop === void 0 ? val : val[prop];
+                } else {
+                    if (!(prop in style)) {
+                        prop = "-webkit-" + prop;
+                    }
+                    style[prop] = val + (typeof val === "string" ? "" : "px")
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
