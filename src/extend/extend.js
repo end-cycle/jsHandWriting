@@ -7,13 +7,15 @@ Father.prototype.sayName = function () {
 }
 
 function Son(name, age) {
+    // 修改this指向
     Father.call(this, name);
     this.age = age;
 }
 
 function inheritPrototype(subType, superType) {
-    //也就是__proto__
+    // 修改prototype指向也就是__proto__
     let prototype = Object.create(superType.prototype);
+    // 修改子类constructor指向，constructor并不算是个很有用的属性
     prototype.constructor = subType;
     subType.prototype = prototype;
 }
