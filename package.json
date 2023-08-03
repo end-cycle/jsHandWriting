@@ -1,11 +1,33 @@
 {
   "devDependencies": {
-    "promises-aplus-tests": "^2.1.2"
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.8.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss": "^8.4.24",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^8.5.1",
+    "promises-aplus-tests": "^2.1.2",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "scripts": {
-    "test": "promises-aplus-tests ./src/promise/myPromise"
+    "promisetest": "promises-aplus-tests ./src/promise/myPromise",
+    "dev": "cd ./src/webpack && cross-env NODE_ENV=dev webpack serve --mode development",
+    "test": "cd ./src/webpack && cross-env NODE_ENV=test webpack --mode production",
+    "build": "cd ./src/webpack && cross-env NODE_ENV=prod webpack --mode production"
   },
   "dependencies": {
+    "node-sass": "^9.0.0",
     "vue": "^3.2.36"
   }
 }
