@@ -15,6 +15,14 @@ const config = {
     module: {
         rules: [
             {
+                test: /\.js$/,
+                loader: './loaders/hello-loader',
+                options: {
+                    author: 'hello loader',
+                    email: 'helloloader@gmail.com'
+                }
+            },
+            {
                 test: /\.(s[ac]|c)ss$/i,
                 use: [
                     // 'style-loader', 
@@ -70,3 +78,28 @@ module.exports = (env, argv) => {
     console.log('argv.mode=', argv.mode);
     return config;
 }
+
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const { resolve } = require('path')
+// module.exports = {
+//     mode: 'none',
+//     entry: './src/main.js',
+//     output: {
+//         path: resolve(__dirname, './dist'),
+//         filename: 'js/[name].js',
+//         clean: true
+//     },
+//     module: {
+//         rules: [
+//             {
+//                 test: /\.js$/,
+//                 loader: './loaders/hello-loader',
+//             },
+//         ]
+//     },
+//     plugins: [
+//         new HtmlWebpackPlugin({
+//             template: './public/index.html'
+//         })
+//     ]
+// }
