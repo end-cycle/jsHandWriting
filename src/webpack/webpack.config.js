@@ -2,6 +2,8 @@ const path = require('path');
 const Htmlwebpackplugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BannerWebpackPlugin = require('./plugins/hello-plugin');
+const AnalyzeWebpackPlugin = require('./plugins/analyze-webpack-plugin');
 
 
 console.log('process.env.NODE_ENV=', process.env.NODE_ENV)
@@ -65,7 +67,9 @@ const config = {
         new MiniCssExtractPlugin({
             filename: '[name].[hash:8].css',
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new BannerWebpackPlugin(),
+        new AnalyzeWebpackPlugin()
     ],
     devServer: {
         static: path.resolve(__dirname, 'public'),
@@ -78,28 +82,3 @@ module.exports = (env, argv) => {
     console.log('argv.mode=', argv.mode);
     return config;
 }
-
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const { resolve } = require('path')
-// module.exports = {
-//     mode: 'none',
-//     entry: './src/main.js',
-//     output: {
-//         path: resolve(__dirname, './dist'),
-//         filename: 'js/[name].js',
-//         clean: true
-//     },
-//     module: {
-//         rules: [
-//             {
-//                 test: /\.js$/,
-//                 loader: './loaders/hello-loader',
-//             },
-//         ]
-//     },
-//     plugins: [
-//         new HtmlWebpackPlugin({
-//             template: './public/index.html'
-//         })
-//     ]
-// }
